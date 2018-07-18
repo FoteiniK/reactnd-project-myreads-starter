@@ -21,13 +21,10 @@ class BooksApp extends Component {
   //x is the book ,y is the shelf.id
   updateShelf = (x, y) => {
     console.log(x, y);
-    BooksAPI.update(x, y)
-      .then(BooksAPI.getAll())
-      .then(books => {
-        this.setState({
-          books
-        });
-      });
+
+    BooksAPI.update(x, y);
+
+    console.log(this.state);
   };
 
   render() {
@@ -39,6 +36,7 @@ class BooksApp extends Component {
           <div className="list-books-title">
             <h1>MyReads</h1>
           </div>
+
           <div className="list-books-content">
             <ShowBookShelf
               shelfName="Currently Reading"
@@ -46,12 +44,14 @@ class BooksApp extends Component {
               shelf="currentlyReading"
               changeShelf={this.updateShelf}
             />
+
             <ShowBookShelf
               shelfName="Want to read"
               books={books.filter(book => book.shelf === "wantToRead")}
               shelf="wantToRead"
               changeShelf={this.updateShelf}
             />
+
             <ShowBookShelf
               shelfName="Read"
               books={books.filter(book => book.shelf === "read")}
