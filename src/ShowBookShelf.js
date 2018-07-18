@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 // import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import BookLook from "./BookLook";
+// import BookLook from "./BookLook";
 import * as BooksAPI from "./BooksAPI";
 
 class ShowBookShelf extends Component {
