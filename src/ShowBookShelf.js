@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-// import { Link } from "react-router-dom";
+
+import { Link } from "react-router-dom";
 import propTypes from "prop-types";
 // import BookLook from "./BookLook";
 // import * as BooksAPI from "./BooksAPI";
@@ -67,6 +68,9 @@ class ShowBookShelf extends Component {
               ))}
             </ol>
           </div>
+        </div>
+        <div className="open-search">
+          <Link to="/addBook">add book</Link>
         </div>
       </div>
     );
