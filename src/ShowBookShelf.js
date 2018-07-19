@@ -1,20 +1,18 @@
 import React, { Component } from "react";
 // import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
+import propTypes from "prop-types";
 // import BookLook from "./BookLook";
-import * as BooksAPI from "./BooksAPI";
+// import * as BooksAPI from "./BooksAPI";
 
 class ShowBookShelf extends Component {
-
-  static PropTypes = {
-    books: PropTypes.array.isRequired,
-    changeShelf: PropTypes.func.isRequired
+  static propTypes = {
+    books: propTypes.array.isRequired,
+    changeShelf: propTypes.func.isRequired
   };
-  // updateShelf = () => test(this.props.book);
 
   render() {
-    const { shelf, books, shelfName } = this.props;
-
+    const { books, shelfName } = this.props;
+    console.log(books);
 
     return (
       <div>
@@ -46,8 +44,9 @@ class ShowBookShelf extends Component {
                       <div className="book-shelf-changer">
                         <select
                           value={book.shelf}
-                          // onChange={()=>this.props.changeShelf(book)}
-                          onChange={(event)=>this.props.changeShelf(book,event.target.value)}
+                          onChange={event =>
+                            this.props.changeShelf(book, event.target.value)
+                          }
                         >
                           <option value="move" disabled>
                             Move to...
@@ -74,4 +73,4 @@ class ShowBookShelf extends Component {
   }
 }
 
-export default ShowBookShelf ;
+export default ShowBookShelf;
