@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
 import * as BooksAPI from "./BooksAPI";
-// import ShowBooks from "./ShowBooks";
 import { Route } from "react-router-dom";
 import ShowBookShelf from "./ShowBookShelf";
 import SearchBooks from "./SearchBooks";
@@ -10,25 +9,24 @@ class BooksApp extends Component {
   state = {
     books: []
   };
-  componentDidMount() {
-    BooksAPI.getAll().then(books => {
-      this.setState({
-        books
-      });
-      console.log(books);
-    });
-  }
 
-  updateShelf = (x, y) => {
-    BooksAPI.update(x, y).then(
+  updateShelf = (b, s) => {
+    BooksAPI.update(b, s).then(
       BooksAPI.getAll().then(books => {
-        // console.log(books);
         this.setState({
           books
         });
       })
     );
   };
+
+  componentDidMount() {
+    BooksAPI.getAll().then(books => {
+      this.setState({
+        books
+      });
+    });
+  }
 
   render() {
     const { books } = this.state;
@@ -66,7 +64,17 @@ class BooksApp extends Component {
             )}
           />
         </div>
-        <Route path="/addBook" component={SearchBooks} />
+
+        <Route
+          exact
+          path="/addBook"
+          render={() => (
+            <SearchBooks
+              changeShelf={this.updateShelf}
+              books={this.state.books}
+            />
+          )}
+        />
       </div>
     );
   }
