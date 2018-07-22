@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import noImgAvailable from "./icons/no_image_available.svg.png";
 
 class BookLook extends Component {
-
   render() {
     const { book } = this.props;
 
@@ -12,13 +11,13 @@ class BookLook extends Component {
           <div className="book-top">
             <div className="book-cover">
               {(book.imageLinks && (
-                <img src={book.imageLinks.smallThumbnail} alt={book.title} />
+                <img src={book.imageLinks.thumbnail} alt={book.title} />
               )) || <img src={noImgAvailable} alt={book.title} />}
             </div>
 
             <div className="book-shelf-changer">
               <select
-                value={book.shelf}
+                value={book.shelf || "none"}
                 onChange={event =>
                   this.props.changeShelf(book, event.target.value)
                 }
@@ -34,7 +33,9 @@ class BookLook extends Component {
             </div>
           </div>
           <div className="book-title">{book.title}</div>
-          <div className="book-authors">{book.authors}</div>
+          <div className="book-authors">
+            {book.authors ? book.authors.join(", ") : ""}
+          </div>
         </div>
       </li>
     );

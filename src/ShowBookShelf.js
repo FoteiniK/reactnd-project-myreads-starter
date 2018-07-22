@@ -3,22 +3,18 @@ import { Link } from "react-router-dom";
 import propTypes from "prop-types";
 import BookLook from "./BookLook";
 
-
 class ShowBookShelf extends Component {
   static propTypes = {
     books: propTypes.array.isRequired,
     changeShelf: propTypes.func.isRequired
   };
 
-
-  changeShelf = (book,shelf) => {
-    this.props.changeShelf(book,shelf)
-  }
-
+  changeShelf = (book, shelf) => {
+    this.props.changeShelf(book, shelf);
+  };
 
   render() {
     const { books, shelfName } = this.props;
-    
 
     return (
       <div>
@@ -30,14 +26,14 @@ class ShowBookShelf extends Component {
                 <BookLook
                   book={book}
                   key={book.id}
-                   changeShelf={this.changeShelf}
+                  changeShelf={this.changeShelf}
                 />
-               ))}
-              </ol>
+              ))}
+            </ol>
           </div>
         </div>
         <div className="open-search">
-          <Link to="/addBook">add book</Link>
+          <Link to="/search">add book</Link>
         </div>
       </div>
     );
