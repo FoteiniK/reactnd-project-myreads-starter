@@ -5,12 +5,12 @@ import * as BooksAPI from "./BooksAPI";
 import escapeRegExp from "escape-string-regexp";
 import NoBooksFound from "./NoBooksFound";
 import BookLook from "./BookLook";
-
+import { DebounceInput } from "react-debounce-input";
 
 class SearchBooks extends Component {
   static propTypes = {
     books: propTypes.array.isRequired,
-    changeShelf: propTypes.func.isRequired,
+    changeShelf: propTypes.func.isRequired
   };
   state = {
     query: "",
@@ -23,44 +23,39 @@ class SearchBooks extends Component {
   };
 
   updateQuery = query => {
-    this.setState({ query: query.trim() });
+    this.setState({ query });
+    const match = new RegExp(escapeRegExp(query), "i");
+    if (query.length === 0) {
+      this.setState({
+        books: [],
+        results: ""
+      });
+    } else if (query.length > 1) {
+      BooksAPI.search(query).then(books => {
+        if (books.length) {
+          [...this.props.books, ...books]
+            .filter(book => match.test(book.title) || match.test(book.author))
+            .map(book =>
+              this.props.books
+                .filter(b => b.id === book.id)
+                .map(b => (book.shelf = b.shelf))
+            );
+          this.setState({
+            results: "",
+            books
+          });
+        } else {
+          this.setState({
+            books: [],
+            results: "no results"
+          });
+        }
+      });
+    }
   };
 
   render() {
     const { query, books } = this.state;
-
-
-
-
-    if (query) {
-      const match = new RegExp(escapeRegExp(query), "i");
-
-      BooksAPI.search(query)
-        .then(books => {
-          if (books.length) {
-            [...this.props.books, ...books]
-              .filter(book => match.test(book.title) || match.test(book.author))
-              .map(book =>
-                this.props.books
-                  .filter(b => b.id === book.id)
-                  .map(b => (book.shelf = b.shelf))
-              );
-
-            this.setState({
-              books
-            });
-
-          } else {
-            this.setState({
-              books: [],
-              results: "no results"
-            });
-          }
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-    }
 
     return (
       <div className="search-books">
@@ -77,8 +72,10 @@ class SearchBooks extends Component {
                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                  you don't find a specific author or title. Every search is limited by search terms.
                */}
-            <input
+            <DebounceInput
               onChange={event => this.updateQuery(event.target.value)}
+              minLength={1}
+              debounceTimeout={300}
               type="text"
               placeholder="Search by title or author"
               value={query}
