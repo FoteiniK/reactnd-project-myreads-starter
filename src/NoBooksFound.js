@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 
-class NoBooksFound extends Component {
-  render() {
+const NoBooksFound =(props) => {
+
     return (
     <div className="no-results">
       <h3>Sorry,there is no book with such title or author</h3>
@@ -9,6 +9,6 @@ class NoBooksFound extends Component {
 
     );
   }
-}
+
 
 export default NoBooksFound;
