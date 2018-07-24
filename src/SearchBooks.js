@@ -18,8 +18,14 @@ class SearchBooks extends Component {
     results: ""
   };
 
-  changeShelf = (book, shelf) => {
-    this.props.changeShelf(book, shelf);
+//move the book to shelf
+  changeShelf = (b, s) => {
+    this.props.changeShelf(b, s);
+     let selectedBook =
+    this.state.books.filter(book => book === b)[0].shelf = s;
+    this.setState(state => ({
+      books: state.books.filter(book => book !== b).concat(selectedBook[0])
+    }));
   };
 
   updateQuery = query => {
@@ -91,6 +97,7 @@ class SearchBooks extends Component {
                 book={book}
                 key={book.id}
                 changeShelf={this.changeShelf}
+                testshelf={this.testSelf}
               />
             ))}
           </ol>
