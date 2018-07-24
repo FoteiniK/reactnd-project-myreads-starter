@@ -11,26 +11,30 @@ class BooksApp extends Component {
   state = {
     books: []
   };
-//updates shelf on main app's page
+  //updates shelf on main app's page and on server
   updateShelf = (b, s) => {
     let selectedBook = this.state.books.filter(book => book === b);
     selectedBook[0].shelf = s;
     this.setState(state => ({
       books: state.books.filter(book => book !== b).concat(selectedBook[0])
     }));
+    BooksAPI.update(b, s)
+      .then({})
+      .catch(error => console.log(error));
   };
 
-//adds book from search page to the correct shelf
+  //adds book from search page to the correct shelf
   addBookToShelf = (b, s) => {
-    BooksAPI.update(b, s).then(
-      BooksAPI.getAll().then(books => {
-        this.setState({
-          books
-        });
-      })
-    );
+    BooksAPI.update(b, s)
+      .then(
+        BooksAPI.getAll().then(books => {
+          this.setState({
+            books
+          });
+        })
+      )
+      .catch(error => console.log(error));
   };
-
 
   componentDidMount() {
     BooksAPI.getAll().then(books => {
